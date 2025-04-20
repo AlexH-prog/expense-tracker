@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Expense;
+use App\Models\Expenseitem;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -18,5 +20,20 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+        Expense::factory(10)->create()->each(function ($expense) {
+            $items = ExpenseItem::factory(3)->create(['expense_id' => $expense->id]);
+            $expense->update([
+                'amount' => $items->sum('total'),
+            ]);
+        });
+
+
+        // For Users
+        // \App\Models\User::factory(10)->create();
+
+        \App\Models\User::factory()->create([
+            'name' => 'Test User',
+            'email' => 'test@example.com',
+        ]);
     }
 }

@@ -42,4 +42,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    // Связь: один пользователь имеет много расходов
+    public function expenses()
+    {
+        return $this->hasMany(Expense::class);
+    }
+
 }
